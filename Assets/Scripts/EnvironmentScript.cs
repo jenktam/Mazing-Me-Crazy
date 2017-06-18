@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnvironmentScript : MonoBehaviour {
 
-    public Vector3 currentRot;
+    public float rotationSpeed = 40;
+    public float maxRotationAngle = 11;
 
     private void Start()
     {
@@ -12,33 +13,42 @@ public class EnvironmentScript : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
-
         //eulerAngles finds currentRotation
-        currentRot = GetComponent<Transform>().eulerAngles;
+        Vector3 currentRot = GetComponent<Transform>().eulerAngles;
+
+        //rotation determines how much we want to rotate the board during this frame.
+        float rotationAmount = rotationSpeed * Time.deltaTime;
 
         //Horizontal Tilt
-        //if currentRotation numbers wrong, ball will get stuck
-        if ((Input.GetAxis("Horizontal") > .2) &&
-            (currentRot.z <= 10 || currentRot.z >= 348))
+        if(currentRot.z >= 180)
         {
-            transform.Rotate(0, 0, 1);
+            currentRot.z -= 360;
         }
-        if((Input.GetAxis("Horizontal") < -.2) &&
-            (currentRot.z >= 349 || currentRot.z <= 11))
+        //increase
+        if (Input.GetAxis("Horizontal") < -.2 && currentRot.z <= maxRotationAngle)
         {
-            transform.Rotate(0, 0, -1);
+            transform.Rotate(0, 0, rotationAmount);
+        }
+        //decrease
+        if(Input.GetAxis("Horizontal") > .2 && currentRot.z >= -1 * maxRotationAngle)
+        {
+            transform.Rotate(0, 0, -1 * rotationAmount);
         }
 
         //Vertical Tilt
-        if ((Input.GetAxis("Vertical") > .2) &&
-            (currentRot.x <= 10 || currentRot.x >= 348))
+        if (currentRot.x >= 180)
         {
-            transform.Rotate(1, 0, 0);
+            currentRot.x -= 360;
         }
-        if ((Input.GetAxis("Vertical") < -.2) &&
-            (currentRot.x >= 349 || currentRot.x <= 11))
+        //increase
+        if (Input.GetAxis("Vertical") > .2 && currentRot.x <= maxRotationAngle)
         {
-            transform.Rotate(-1, 0, 0);
+            transform.Rotate(rotationAmount, 0, 0);
+        }
+        //decrease
+        if (Input.GetAxis("Vertical") < -.2 && currentRot.x >= -1 * maxRotationAngle)
+        {
+            transform.Rotate(-1 * rotationAmount, 0, 0);
         }
     }
 }
