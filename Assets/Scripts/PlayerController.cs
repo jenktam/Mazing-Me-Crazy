@@ -9,26 +9,12 @@ public class PlayerController : MonoBehaviour
 
     public Text countText;
     public Text winText;
-    //public float speed;
-    //private Rigidbody rb;
 
     void Start()
     {
-        //rb = GetComponent<Rigidbody>();
         count = 0;
         SetCountText();
         winText.text = "";
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
-
-        //Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
-        //rb.AddForce(movement * speed);
     }
 
     private void OnTriggerEnter(Collider other)
