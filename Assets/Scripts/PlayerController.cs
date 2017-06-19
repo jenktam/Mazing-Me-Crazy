@@ -9,12 +9,14 @@ public class PlayerController : MonoBehaviour
 
     public Text countText;
     public Text winText;
+    public Text loseText;
 
     void Start()
     {
         count = 0;
         SetCountText();
         winText.text = "";
+        loseText.text = "";
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,6 +29,12 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
             Debug.Log("You Win!");
+        }
+
+        if (other.CompareTag("Hole"))
+        {
+            Destroy(gameObject);
+            loseText.text = "You Lose :(";
         }
 
         count++;
